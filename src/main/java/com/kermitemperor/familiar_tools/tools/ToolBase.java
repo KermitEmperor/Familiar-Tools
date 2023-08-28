@@ -1,7 +1,10 @@
 package com.kermitemperor.familiar_tools.tools;
 
+import com.kermitemperor.familiar_tools.FamiliarTools;
+import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -16,7 +19,15 @@ public class ToolBase extends Item {
     public ToolBase(Properties pProperties) {
         super(pProperties);
     }
-    
+    @Override
+    public void fillItemCategory(@NotNull CreativeModeTab group, @NotNull NonNullList<ItemStack> items) {
+        if (group == FamiliarTools.FAMILIAR_TAB) {
+            ItemStack stack = new ItemStack(this);
+            CompoundTag nbt = stack.getOrCreateTag();
+            nbt.putInt("HeadColor", 0x385374);
+            items.add(stack);
+        }
+    }
     public static void setToolColor(ItemStack stack, int color) {
         stack.getOrCreateTag().putInt(NBT_COLOR, color);
     }
