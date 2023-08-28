@@ -1,6 +1,7 @@
-package com.kermitemperor.familiar_tools;
+package com.kermitemperor.familiartools;
 
-import com.kermitemperor.familiar_tools.tools.ToolBase;
+import com.kermitemperor.familiartools.tools.ModItems;
+import com.kermitemperor.familiartools.tools.ToolBase;
 import com.mojang.logging.LogUtils;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
@@ -22,9 +23,9 @@ import java.util.stream.Collectors;
 @Mod(FamiliarTools.MOD_ID)
 public class FamiliarTools {
 
-    public static final String MOD_ID = "familiar_tools";
+    public static final String MOD_ID = "familiartools";
     public static final CreativeModeTab FAMILIAR_TAB = new ModItemGroup("familiar_tab");
-    public static final Item hammer = new ToolBase();
+    //public static final Item hammer = new ToolBase();
     private static final Logger LOGGER = LogUtils.getLogger();
 
     public FamiliarTools() {
@@ -32,6 +33,7 @@ public class FamiliarTools {
         IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
         eventBus.addListener(this::setup);
 
+        ModItems.register(eventBus);
 
 
         // Register ourselves for server and other game events we are interested in

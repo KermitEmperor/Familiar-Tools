@@ -1,6 +1,6 @@
-package com.kermitemperor.familiar_tools.tools;
+package com.kermitemperor.familiartools.tools;
 
-import com.kermitemperor.familiar_tools.FamiliarTools;
+
 import net.minecraft.client.color.item.ItemColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -9,8 +9,8 @@ import javax.annotation.Nonnull;
 
 public class ToolBase extends Item implements ItemColor{
     public static final String NBT_COLOR = "HeadColor";
-    public ToolBase() {
-        super(new Properties().tab(FamiliarTools.FAMILIAR_TAB).stacksTo(1));
+    public ToolBase(Properties pProperties) {
+        super(pProperties);
     }
 
     public static int getToolColor(ItemStack stack) {
