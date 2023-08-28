@@ -7,7 +7,7 @@ import net.minecraft.world.item.ItemStack;
 
 import javax.annotation.Nonnull;
 
-public class ToolBase extends Item implements ItemColor{
+public class ToolBase extends Item implements ItemColor {
     public static final String NBT_COLOR = "HeadColor";
     public ToolBase(Properties pProperties) {
         super(pProperties);
