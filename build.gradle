@@ -137,6 +137,13 @@ repositories {
     maven {
         url 'https://www.cursemaven.com'
     }
+    maven {
+        name = 'tterrag maven'
+        url = 'https://maven.tterrag.com/'
+    }
+    maven {
+        url = "https://maven.tterrag.com/"
+    }
 }
 
 dependencies {
@@ -153,6 +160,7 @@ dependencies {
     // compileOnly fg.deobf("mezz.jei:jei-${mc_version}-forge-api:${jei_version}")
     // runtimeOnly fg.deobf("mezz.jei:jei-${mc_version}-forge:${jei_version}")
     runtimeOnly fg.deobf("curse.maven:nbt-tool-451553:3748971")
+    implementation fg.deobf("com.tterrag.registrate:Registrate:${registrate_version}")
 
     // Example mod dependency using a mod jar from ./libs with a flat dir repository
     // This maps to ./libs/coolmod-${mc_version}-${coolmod_version}.jar

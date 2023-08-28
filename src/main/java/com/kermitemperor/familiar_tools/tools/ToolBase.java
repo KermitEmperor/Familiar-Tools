@@ -1,27 +1,37 @@
 package com.kermitemperor.familiar_tools.tools;
 
-import com.kermitemperor.familiar_tools.FamiliarTools;
-import net.minecraft.client.color.item.ItemColor;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.List;
 
-public class ToolBase extends Item implements ItemColor{
+public class ToolBase extends Item {
     public static final String NBT_COLOR = "HeadColor";
-    public ToolBase() {
-        super(new Properties().tab(FamiliarTools.FAMILIAR_TAB).stacksTo(1));
+    public ToolBase(Properties pProperties) {
+        super(pProperties);
     }
-
-    public static int getToolColor(ItemStack stack) {
-        return stack.getOrCreateTag().getInt(NBT_COLOR);
-    }
-
+    
     public static void setToolColor(ItemStack stack, int color) {
         stack.getOrCreateTag().putInt(NBT_COLOR, color);
     }
-
-    public int getColor(@Nonnull ItemStack stack, int tintIndex) {
-        return tintIndex == 1 ? getToolColor(stack) : 0x694c2d;
+    
+    @Override
+    public @NotNull ItemStack getDefaultInstance() {
+        ItemStack stack = new ItemStack(this);
+        setToolColor(stack,0x385374);
+        return stack;
+    }
+    @Override
+    public void appendHoverText(ItemStack stack, @Nullable Level level, @NotNull List<Component> tooltip, @NotNull TooltipFlag flag) {
+        CompoundTag tag = stack.getOrCreateTag();
+        if (tag.contains(NBT_COLOR)) {
+            tooltip.add(Component.nullToEmpty("#" + Integer.toHexString(tag.getInt(NBT_COLOR)).toUpperCase()));
+        }
     }
 }
