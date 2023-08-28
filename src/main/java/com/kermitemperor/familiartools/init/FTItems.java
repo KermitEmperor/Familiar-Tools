@@ -1,9 +1,9 @@
-package com.kermitemperor.familiar_tools.init;
+package com.kermitemperor.familiartools.init;
 
-import com.kermitemperor.familiar_tools.FamiliarTools;
-import com.kermitemperor.familiar_tools.tools.ToolBase;
-import com.kermitemperor.familiar_tools.tools.util.ToolColour;
-import com.kermitemperor.familiar_tools.util.FarmiliarToolsRegistrate;
+import com.kermitemperor.familiartools.FamiliarTools;
+import com.kermitemperor.familiartools.tools.ToolBase;
+import com.kermitemperor.familiartools.tools.util.ToolColour;
+import com.kermitemperor.familiartools.util.FarmiliarToolsRegistrate;
 import com.tterrag.registrate.util.entry.ItemEntry;
 
 public class FTItems {

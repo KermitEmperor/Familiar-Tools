@@ -1,4 +1,4 @@
-package com.kermitemperor.familiar_tools.tools.util;
+package com.kermitemperor.familiartools.tools.util;
 
 import com.google.common.hash.Hashing;
 import com.mojang.math.Vector3f;

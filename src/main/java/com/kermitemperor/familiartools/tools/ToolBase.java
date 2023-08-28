@@ -1,6 +1,6 @@
-package com.kermitemperor.familiar_tools.tools;
+package com.kermitemperor.familiartools.tools;
 
-import com.kermitemperor.familiar_tools.FamiliarTools;
+import com.kermitemperor.familiartools.FamiliarTools;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;

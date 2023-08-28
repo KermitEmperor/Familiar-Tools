@@ -1,6 +1,5 @@
-package com.kermitemperor.familiar_tools.tools.util;
+package com.kermitemperor.familiartools.tools.util;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.color.item.ItemColor;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;

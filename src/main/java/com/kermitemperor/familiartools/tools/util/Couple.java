@@ -1,4 +1,4 @@
-package com.kermitemperor.familiar_tools.tools.util;
+package com.kermitemperor.familiartools.tools.util;
 
 
 import java.util.Iterator;

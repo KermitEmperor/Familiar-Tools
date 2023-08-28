@@ -1,4 +1,4 @@
-package com.kermitemperor.familiar_tools.util;
+package com.kermitemperor.familiartools.util;
 
 import com.tterrag.registrate.AbstractRegistrate;
 import net.minecraftforge.eventbus.api.IEventBus;

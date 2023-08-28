@@ -1,14 +1,12 @@
-package com.kermitemperor.familiar_tools;
+package com.kermitemperor.familiartools;
 
-import com.kermitemperor.familiar_tools.init.FTItems;
-import com.kermitemperor.familiar_tools.util.FarmiliarToolsRegistrate;
+import com.kermitemperor.familiartools.init.FTItems;
+import com.kermitemperor.familiartools.util.FarmiliarToolsRegistrate;
 import com.mojang.logging.LogUtils;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -20,7 +18,7 @@ import org.slf4j.Logger;
 @Mod(FamiliarTools.MOD_ID)
 public class FamiliarTools {
 
-    public static final String MOD_ID = "familiar_tools";
+    public static final String MOD_ID = "familiartools";
     public static final CreativeModeTab FAMILIAR_TAB = new ModItemGroup("familiar_tab");
     public static final FarmiliarToolsRegistrate registrate = FarmiliarToolsRegistrate.create(MOD_ID);
     private static final Logger LOGGER = LogUtils.getLogger();
