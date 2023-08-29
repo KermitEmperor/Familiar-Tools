@@ -5,6 +5,9 @@ import com.kermitemperor.familiartools.tools.ToolBase;
 import com.kermitemperor.familiartools.tools.util.ToolColour;
 import com.kermitemperor.familiartools.util.FarmiliarToolsRegistrate;
 import com.tterrag.registrate.util.entry.ItemEntry;
+import net.minecraft.world.item.ItemStack;
+
+import static com.kermitemperor.familiartools.tools.ToolBase.*;
 
 public class FTItems {
     private static final FarmiliarToolsRegistrate REGISTRATE = FamiliarTools.registrate()
