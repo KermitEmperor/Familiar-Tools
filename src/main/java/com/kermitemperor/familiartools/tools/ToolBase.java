@@ -1,6 +1,8 @@
 package com.kermitemperor.familiartools.tools;
 
+import com.google.gson.JsonObject;
 import com.kermitemperor.familiartools.FamiliarTools;
+import com.kermitemperor.familiartools.util.StringUtil.*;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.*;
 import net.minecraft.network.chat.Component;
@@ -15,10 +17,11 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.kermitemperor.familiartools.util.StringUtil.capitalize;
+
 public class ToolBase extends Item {
     public static final String NBT_COLOR_HEAD = "HeadColor";
     public static final String NBT_COLOR_BASE = "BaseColor";
-    public static final String NBT_NAME = "LocalizedName";
     public static final String NBT_TIER = "Tier";
     public ToolBase(Properties pProperties) {
         super(pProperties);
@@ -28,11 +31,18 @@ public class ToolBase extends Item {
         if (group == FamiliarTools.FAMILIAR_TAB) {
             ItemStack stack = new ItemStack(this);
             CompoundTag nbt = stack.getOrCreateTag();
-            //TODO why won't this work
+            //SO MUCH PAIN
+
+
+            JsonObject textComponent = new JsonObject();
+            textComponent.addProperty("text", "Nice %s".formatted(capitalize(this.getRegistryName().getPath())));
+            textComponent.addProperty("italic", false);
+            String jsonDisplayName = textComponent.toString();
+
             CompoundTag namenbt = new CompoundTag();
-            namenbt.putString("Name", "{Name:[{\"text\":\"Nice\",\"italic\":false}]}");
+            namenbt.putString("Name", jsonDisplayName);
             nbt.put("display", namenbt);
-            nbt.putString(NBT_NAME, "testing");
+
             nbt.putInt(NBT_TIER, 1);
             nbt.putInt(NBT_COLOR_HEAD, 0x385374);
             nbt.putInt(NBT_COLOR_BASE, 0xABC008);
@@ -40,9 +50,6 @@ public class ToolBase extends Item {
         }
     }
 
-    public static String getToolName(ItemStack stack) {
-        return stack.getOrCreateTag().getString(NBT_NAME);
-    }
 
     public static int getToolTier(ItemStack stack) {
         return stack.getOrCreateTag().getInt(NBT_TIER);
