@@ -28,6 +28,7 @@ public class ToolBase extends Item {
         if (group == FamiliarTools.FAMILIAR_TAB) {
             ItemStack stack = new ItemStack(this);
             CompoundTag nbt = stack.getOrCreateTag();
+            //TODO why won't this work
             CompoundTag namenbt = new CompoundTag();
             namenbt.putString("Name", "{Name:[{\"text\":\"Nice\",\"italic\":false}]}");
             nbt.put("display", namenbt);
