@@ -25,8 +25,13 @@ public class ToolBase extends Item {
     public static final String NBT_COLOR_HEAD = "HeadColor";
     public static final String NBT_COLOR_BASE = "BaseColor";
     public static final String NBT_TIER = "Tier";
+    public static final String NBT_MAXDAMAGEMULTIPLIER = "MaxDamage";
+
+    private int durability = 100;
+
     public ToolBase(Properties pProperties) {
         super(pProperties);
+        this.durability = durability;
     }
 
     private int getColorFromJsonKey(JsonObject jsonObject, String key) {
@@ -57,6 +62,8 @@ public class ToolBase extends Item {
                 nbt.putInt(NBT_TIER, json.get("tier").getAsInt());
                 nbt.putInt(NBT_COLOR_HEAD, getColorFromJsonKey(json, "headcolor"));
                 nbt.putInt(NBT_COLOR_BASE, getColorFromJsonKey(json, "basecolor"));
+                nbt.putInt(NBT_MAXDAMAGEMULTIPLIER, json.get("durability").getAsInt());
+                nbt.putInt("Damage", 0);
                 items.add(stack);
             }
         }
@@ -66,14 +73,22 @@ public class ToolBase extends Item {
 
 
 
-    public static int getToolTier(ItemStack stack) {
+    public static int getToolTier(@NotNull ItemStack stack) {
         return stack.getOrCreateTag().getInt(NBT_TIER);
     }
 
-    public static void setToolColor(ItemStack stack, int headcolor, int basecolor) {
+    public static void setToolColor(@NotNull ItemStack stack, int headcolor, int basecolor) {
         CompoundTag nbt = stack.getOrCreateTag();
         nbt.putInt(NBT_COLOR_HEAD, headcolor);
         nbt.putInt(NBT_COLOR_HEAD, basecolor);
+    }
+
+    public boolean canBeDepleted() {
+        return durability > 0;
+    }
+
+    public int getMaxDamage(@NotNull ItemStack stack) {
+        return durability * stack.getTag().getInt(NBT_MAXDAMAGEMULTIPLIER);
     }
 
     @Override
@@ -90,7 +105,7 @@ public class ToolBase extends Item {
         return stack;
     }
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level level, @NotNull List<Component> tooltip, @NotNull TooltipFlag flag) {
+    public void appendHoverText(@NotNull ItemStack stack, @Nullable Level level, @NotNull List<Component> tooltip, @NotNull TooltipFlag flag) {
         CompoundTag tag = stack.getOrCreateTag();
         if (tag.contains(NBT_COLOR_HEAD)) {
             tooltip.add(Component.nullToEmpty("#" + Integer.toHexString(tag.getInt(NBT_COLOR_HEAD)).toUpperCase()));
