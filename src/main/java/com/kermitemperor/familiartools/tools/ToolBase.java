@@ -6,6 +6,7 @@ import com.kermitemperor.familiartools.FamiliarTools;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.*;
 import net.minecraft.network.chat.Component;
+import net.minecraft.util.Mth;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -58,29 +59,11 @@ public class ToolBase extends Item {
                 nbt.putInt(NBT_COLOR_BASE, getColorFromJsonKey(json, "basecolor"));
                 items.add(stack);
             }
-            /*
-            ItemStack stack = new ItemStack(this);
-            CompoundTag nbt = stack.getOrCreateTag();
-            //SO MUCH PAIN
-
-
-            JsonObject textComponent = new JsonObject();
-            textComponent.addProperty("text", "Nice %s".formatted(capitalize(this.getRegistryName().getPath())));
-            textComponent.addProperty("italic", false);
-            String jsonDisplayName = textComponent.toString();
-
-            CompoundTag namenbt = new CompoundTag();
-            namenbt.putString("Name", jsonDisplayName);
-            nbt.put("display", namenbt);
-
-            nbt.putInt(NBT_TIER, 1);
-            nbt.putInt(NBT_COLOR_HEAD, 0x385374);
-            nbt.putInt(NBT_COLOR_BASE, 0xABC008);
-            items.add(stack);
-            */
-
         }
     }
+
+
+
 
 
     public static int getToolTier(ItemStack stack) {
@@ -91,6 +74,13 @@ public class ToolBase extends Item {
         CompoundTag nbt = stack.getOrCreateTag();
         nbt.putInt(NBT_COLOR_HEAD, headcolor);
         nbt.putInt(NBT_COLOR_HEAD, basecolor);
+    }
+
+    @Override
+    public int getBarColor(@NotNull ItemStack pStack) {
+        float stackMaxDamage = this.getMaxDamage(pStack);
+        float f = Math.max(0.0F, (stackMaxDamage - (float)pStack.getDamageValue()) / stackMaxDamage);
+        return Mth.hsvToRgb(f / 3.0F, 1.0F, 1.0F);
     }
     
     @Override
