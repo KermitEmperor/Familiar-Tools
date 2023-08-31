@@ -17,6 +17,8 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 
+import javax.json.Json;
+
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(FamiliarTools.MOD_ID)
@@ -31,7 +33,6 @@ public class FamiliarTools {
 
         IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
         eventBus.addListener(this::setup);
-        eventBus.addListener(this::jsonReading);
 
         
         FTItems.register();
@@ -47,8 +48,9 @@ public class FamiliarTools {
         LOGGER.info("DIRT BLOCK >> {}", Blocks.DIRT.getRegistryName());
     }
 
+    @SubscribeEvent
     public void jsonReading(AddReloadListenerEvent event) {
-
+        event.addListener(JsonListener.instance);
     }
     
     public static @NotNull FarmiliarToolsRegistrate registrate() {
