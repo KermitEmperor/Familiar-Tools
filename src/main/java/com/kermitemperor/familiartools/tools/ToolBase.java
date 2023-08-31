@@ -88,8 +88,7 @@ public class ToolBase extends Item {
     }
 
     public int getMaxDamage(@NotNull ItemStack stack) {
-        assert stack.getTag() != null;
-        return durability * stack.getTag().getInt(NBT_MAXDAMAGEMULTIPLIER);
+        return durability * Objects.requireNonNull(stack.getTag()).getInt(NBT_MAXDAMAGEMULTIPLIER);
     }
 
     @Override
