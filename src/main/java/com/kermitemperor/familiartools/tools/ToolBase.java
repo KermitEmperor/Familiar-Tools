@@ -88,6 +88,7 @@ public class ToolBase extends Item {
     }
 
     public int getMaxDamage(@NotNull ItemStack stack) {
+        assert stack.getTag() != null;
         return durability * stack.getTag().getInt(NBT_MAXDAMAGEMULTIPLIER);
     }
 
@@ -96,6 +97,11 @@ public class ToolBase extends Item {
         float stackMaxDamage = this.getMaxDamage(pStack);
         float f = Math.max(0.0F, (stackMaxDamage - (float)pStack.getDamageValue()) / stackMaxDamage);
         return Mth.hsvToRgb(f / 3.0F, 1.0F, 1.0F);
+    }
+
+    @Override
+    public boolean isBarVisible(ItemStack pStack) {
+        return (pStack.getDamageValue() > 0);
     }
 
     @Override
