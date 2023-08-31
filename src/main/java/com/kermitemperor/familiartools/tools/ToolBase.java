@@ -3,6 +3,7 @@ package com.kermitemperor.familiartools.tools;
 import com.google.gson.JsonObject;
 import com.kermitemperor.familiartools.FamiliarTools;
 import com.kermitemperor.familiartools.util.StringUtil.*;
+import com.mojang.logging.LogUtils;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.*;
 import net.minecraft.network.chat.Component;
@@ -12,6 +13,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -26,6 +28,7 @@ public class ToolBase extends Item {
     public ToolBase(Properties pProperties) {
         super(pProperties);
     }
+    private static final Logger LOGGER = LogUtils.getLogger();
     @Override
     public void fillItemCategory(@NotNull CreativeModeTab group, @NotNull NonNullList<ItemStack> items) {
         if (group == FamiliarTools.FAMILIAR_TAB) {
