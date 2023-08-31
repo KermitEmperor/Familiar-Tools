@@ -1,7 +1,7 @@
 {
-  "localizedName": "zinc",
-  "basecolor": "0x30fc03",
-  "headcolor": "0x00ffc3",
+  "localizedName": "Zinc",
+  "basecolor": "30FC03",
+  "headcolor": "B4A0A5",
   "tier": 2,
   "durabiltiy": 100
 }

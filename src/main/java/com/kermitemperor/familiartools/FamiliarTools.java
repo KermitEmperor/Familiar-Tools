@@ -4,7 +4,6 @@ import com.kermitemperor.familiartools.init.FTItems;
 import com.kermitemperor.familiartools.util.FarmiliarToolsRegistrate;
 import com.kermitemperor.familiartools.util.JsonListener;
 import com.mojang.logging.LogUtils;
-import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.MinecraftForge;
@@ -16,9 +15,6 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
-
-import javax.json.Json;
-
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(FamiliarTools.MOD_ID)

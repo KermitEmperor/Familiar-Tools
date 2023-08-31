@@ -1,9 +1,8 @@
 package com.kermitemperor.familiartools.tools;
 
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.kermitemperor.familiartools.FamiliarTools;
-import com.kermitemperor.familiartools.util.StringUtil.*;
-import com.mojang.logging.LogUtils;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.*;
 import net.minecraft.network.chat.Component;
@@ -13,12 +12,12 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
-import org.slf4j.Logger;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
+import static com.kermitemperor.familiartools.util.JsonListener.TOOLMATERIALS;
 import static com.kermitemperor.familiartools.util.StringUtil.capitalize;
 
 public class ToolBase extends Item {
@@ -28,10 +27,38 @@ public class ToolBase extends Item {
     public ToolBase(Properties pProperties) {
         super(pProperties);
     }
-    private static final Logger LOGGER = LogUtils.getLogger();
+
+    private int getColorFromJsonKey(JsonObject jsonObject, String key) {
+        return Integer.parseInt(jsonObject.get(key).getAsString().toUpperCase(), 16);
+    }
     @Override
     public void fillItemCategory(@NotNull CreativeModeTab group, @NotNull NonNullList<ItemStack> items) {
         if (group == FamiliarTools.FAMILIAR_TAB) {
+            for (JsonElement jsonElement : TOOLMATERIALS) {
+                JsonObject json = jsonElement.getAsJsonObject();
+                ItemStack stack = new ItemStack(this);
+                CompoundTag nbt = stack.getOrCreateTag();
+                //SO MUCH PAIN
+
+
+                JsonObject textComponent = new JsonObject();
+                textComponent.addProperty("text", "%s %s".formatted(
+                        json.get("localizedName").getAsString(),
+                        capitalize(Objects.requireNonNull(this.getRegistryName()).getPath()
+                        )));
+                textComponent.addProperty("italic", false);
+                String jsonDisplayName = textComponent.toString();
+
+                CompoundTag namenbt = new CompoundTag();
+                namenbt.putString("Name", jsonDisplayName);
+                nbt.put("display", namenbt);
+
+                nbt.putInt(NBT_TIER, json.get("tier").getAsInt());
+                nbt.putInt(NBT_COLOR_HEAD, getColorFromJsonKey(json, "headcolor"));
+                nbt.putInt(NBT_COLOR_BASE, getColorFromJsonKey(json, "basecolor"));
+                items.add(stack);
+            }
+            /*
             ItemStack stack = new ItemStack(this);
             CompoundTag nbt = stack.getOrCreateTag();
             //SO MUCH PAIN
@@ -50,6 +77,8 @@ public class ToolBase extends Item {
             nbt.putInt(NBT_COLOR_HEAD, 0x385374);
             nbt.putInt(NBT_COLOR_BASE, 0xABC008);
             items.add(stack);
+            */
+
         }
     }
 
