@@ -26,6 +26,8 @@ public class ToolBase extends Item {
     public static final String NBT_COLOR_BASE = "BaseColor";
     public static final String NBT_TIER = "Tier";
     public static final String NBT_MAXDAMAGEMULTIPLIER = "MaxDamage";
+    public static final String NBT_GLOW = "glow";
+    public static final String NBT_COLOR_GLOW = "GlowColor";
 
     private int durability;
 
@@ -45,6 +47,16 @@ public class ToolBase extends Item {
                 ItemStack stack = new ItemStack(this);
                 CompoundTag nbt = stack.getOrCreateTag();
                 //SO MUCH PAIN
+
+
+
+                try {
+                    boolean isGlowing = json.get("glow").getAsBoolean();
+                    if(isGlowing) {
+                        nbt.putFloat(NBT_GLOW, isGlowing ? 1 : 0);
+                        nbt.putInt(NBT_COLOR_GLOW, getColorFromJsonKey(json, "glowcolor"));
+                    };
+                } catch (Exception e) {}
 
 
                 JsonObject textComponent = new JsonObject();

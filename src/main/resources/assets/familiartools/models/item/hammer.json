@@ -3,5 +3,8 @@
   "textures": {
     "layer0": "familiartools:item/hammer_base_color",
     "layer1": "familiartools:item/hammer_color"
-  }
+  },
+  "overrides": [
+    {"predicate": {"glow":1}, "model": "familiartools:item/hammer_glowy"}
+  ]
 }

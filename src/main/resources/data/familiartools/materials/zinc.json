@@ -1,5 +1,7 @@
 {
   "localizedName": "Zinc",
+  "glow": true,
+  "glowcolor": "000000",
   "basecolor": "30FC03",
   "headcolor": "B4A0A5",
   "tier": 2,
