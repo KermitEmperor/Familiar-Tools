@@ -27,7 +27,7 @@ public class ToolBase extends Item {
     public static final String NBT_TIER = "Tier";
     public static final String NBT_MAXDAMAGEMULTIPLIER = "MaxDamage";
 
-    private int durability = 100;
+    private int durability;
 
     public ToolBase(Properties pProperties) {
         super(pProperties);
@@ -69,9 +69,27 @@ public class ToolBase extends Item {
         }
     }
 
+    @Override
+    public ItemStack getContainerItem(ItemStack stack) {
+        ItemStack returnStack = stack.copy();
+        CompoundTag nbt = returnStack.getOrCreateTag();
+        int stackDamage = nbt.getInt("Damage");
+        if(stackDamage >= getMaxDamage(returnStack)) {
+            return ItemStack.EMPTY;
+        }
+        nbt.putInt("Damage", stackDamage+1);
+        return returnStack;
+    }
 
+    @Override
+    public boolean hasContainerItem(ItemStack stack) {
+        return true;
+    }
 
-
+    @Override
+    public int getItemStackLimit(ItemStack stack) {
+        return 1;
+    }
 
     public static int getToolTier(@NotNull ItemStack stack) {
         return stack.getOrCreateTag().getInt(NBT_TIER);
@@ -112,11 +130,8 @@ public class ToolBase extends Item {
     @Override
     public void appendHoverText(@NotNull ItemStack stack, @Nullable Level level, @NotNull List<Component> tooltip, @NotNull TooltipFlag flag) {
         CompoundTag tag = stack.getOrCreateTag();
-        if (tag.contains(NBT_COLOR_HEAD)) {
-            tooltip.add(Component.nullToEmpty("#" + Integer.toHexString(tag.getInt(NBT_COLOR_HEAD)).toUpperCase()));
-        }
-        if (tag.contains(NBT_COLOR_BASE)) {
-            tooltip.add(Component.nullToEmpty("#" + Integer.toHexString(tag.getInt(NBT_COLOR_BASE)).toUpperCase()));
+        if (tag.contains(NBT_TIER)) {
+            tooltip.add(Component.nullToEmpty("§6Tier: §a" + tag.getInt(NBT_TIER)));
         }
     }
 }
