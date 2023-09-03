@@ -45,7 +45,9 @@ public class ToolBase extends Item {
                 int headcolor = getColorFromJsonKey(json, "headcolor");
                 int basecolor = getColorFromJsonKey(json, "basecolor");
                 int durability = json.get("durability").getAsInt();
-                items.add(createStack(name, tier, headcolor, basecolor, durability));
+                ItemStack newItemStack = createStack(name, tier, headcolor, basecolor, durability);
+                if (items.contains(newItemStack)) {return;}
+                items.add(newItemStack);
             }
         }
     }
