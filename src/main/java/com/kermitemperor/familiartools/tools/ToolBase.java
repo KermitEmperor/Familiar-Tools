@@ -25,15 +25,11 @@ public class ToolBase extends Item {
     public static final String NBT_COLOR_HEAD = "HeadColor";
     public static final String NBT_COLOR_BASE = "BaseColor";
     public static final String NBT_TIER = "Tier";
-    public static final String NBT_MAXDAMAGEMULTIPLIER = "MaxDamage";
-    public static final String NBT_GLOW = "glow";
-    public static final String NBT_COLOR_GLOW = "GlowColor";
+    public static final String NBT_MAXDAMAGE = "MaxDamage";
 
-    private int durability;
 
     public ToolBase(Properties pProperties) {
         super(pProperties);
-        this.durability = durability;
     }
 
     private int getColorFromJsonKey(JsonObject jsonObject, String key) {
@@ -44,41 +40,41 @@ public class ToolBase extends Item {
         if (group == FamiliarTools.FAMILIAR_TAB) {
             for (JsonElement jsonElement : TOOLMATERIALS) {
                 JsonObject json = jsonElement.getAsJsonObject();
-                ItemStack stack = new ItemStack(this);
-                CompoundTag nbt = stack.getOrCreateTag();
-                //SO MUCH PAIN
-
-
-
-                try {
-                    boolean isGlowing = json.get("glow").getAsBoolean();
-                    if(isGlowing) {
-                        nbt.putFloat(NBT_GLOW, isGlowing ? 1 : 0);
-                        nbt.putInt(NBT_COLOR_GLOW, getColorFromJsonKey(json, "glowcolor"));
-                    };
-                } catch (Exception e) {}
-
-
-                JsonObject textComponent = new JsonObject();
-                textComponent.addProperty("text", "%s %s".formatted(
-                        json.get("localizedName").getAsString(),
-                        capitalize(Objects.requireNonNull(this.getRegistryName()).getPath()
-                        )));
-                textComponent.addProperty("italic", false);
-                String jsonDisplayName = textComponent.toString();
-
-                CompoundTag namenbt = new CompoundTag();
-                namenbt.putString("Name", jsonDisplayName);
-                nbt.put("display", namenbt);
-
-                nbt.putInt(NBT_TIER, json.get("tier").getAsInt());
-                nbt.putInt(NBT_COLOR_HEAD, getColorFromJsonKey(json, "headcolor"));
-                nbt.putInt(NBT_COLOR_BASE, getColorFromJsonKey(json, "basecolor"));
-                nbt.putInt(NBT_MAXDAMAGEMULTIPLIER, json.get("durability").getAsInt());
-                nbt.putInt("Damage", 0);
-                items.add(stack);
+                String name = json.get("localizedName").getAsString();
+                int tier = json.get("tier").getAsInt();
+                int headcolor = getColorFromJsonKey(json, "headcolor");
+                int basecolor = getColorFromJsonKey(json, "basecolor");
+                int durability = json.get("durability").getAsInt();
+                items.add(createStack(name, tier, headcolor, basecolor, durability));
             }
         }
+    }
+
+    public ItemStack createStack(String stackName, int tier, int headColor, int baseColor, int durability) {
+
+        ItemStack stack = new ItemStack(this);
+        CompoundTag nbt = stack.getOrCreateTag();
+        //SO MUCH PAIN
+
+
+        JsonObject textComponent = new JsonObject();
+        textComponent.addProperty("text", "%s %s".formatted(
+                stackName,
+                capitalize(Objects.requireNonNull(this.getRegistryName()).getPath()
+                )));
+        textComponent.addProperty("italic", false);
+        String jsonDisplayName = textComponent.toString();
+
+        CompoundTag namenbt = new CompoundTag();
+        namenbt.putString("Name", jsonDisplayName);
+        nbt.put("display", namenbt);
+
+        nbt.putInt(NBT_TIER, tier);
+        nbt.putInt(NBT_COLOR_HEAD, headColor);
+        nbt.putInt(NBT_COLOR_BASE, baseColor);
+        nbt.putInt(NBT_MAXDAMAGE, durability);
+        nbt.putInt("Damage", 0);
+        return stack;
     }
 
     @Override
@@ -107,18 +103,12 @@ public class ToolBase extends Item {
         return stack.getOrCreateTag().getInt(NBT_TIER);
     }
 
-    public static void setToolColor(@NotNull ItemStack stack, int headcolor, int basecolor) {
-        CompoundTag nbt = stack.getOrCreateTag();
-        nbt.putInt(NBT_COLOR_HEAD, headcolor);
-        nbt.putInt(NBT_COLOR_HEAD, basecolor);
-    }
-
     public boolean canBeDepleted() {
-        return durability > 0;
+        return true;
     }
 
     public int getMaxDamage(@NotNull ItemStack stack) {
-        return durability * Objects.requireNonNull(stack.getTag()).getInt(NBT_MAXDAMAGEMULTIPLIER);
+        return Objects.requireNonNull(stack.getTag()).getInt(NBT_MAXDAMAGE);
     }
 
     @Override
@@ -135,9 +125,7 @@ public class ToolBase extends Item {
 
     @Override
     public @NotNull ItemStack getDefaultInstance() {
-        ItemStack stack = new ItemStack(this);
-        setToolColor(stack,0x385374, 0xffffff);
-        return stack;
+        return createStack("Base", 1, 0xffffff, 0xffffff, 8000);
     }
     @Override
     public void appendHoverText(@NotNull ItemStack stack, @Nullable Level level, @NotNull List<Component> tooltip, @NotNull TooltipFlag flag) {

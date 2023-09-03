@@ -1,8 +1,0 @@
-{
-  "parent": "item/generated",
-  "textures": {
-    "layer0": "familiartools:item/hammer_base_color",
-    "layer1": "familiartools:item/hammer_color",
-    "layer2": "familiartools:item/hammer_glow_color"
-  }
-}
