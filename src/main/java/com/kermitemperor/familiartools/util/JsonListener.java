@@ -17,7 +17,6 @@ import java.util.*;
 
 public class JsonListener extends SimpleJsonResourceReloadListener {
     public static List<JsonElement> TOOLMATERIALS;
-    public static Dictionary<String, JsonElement> MATERIALSDICT;
     private static final Logger LOGGER = LogUtils.getLogger();
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
     public static final JsonListener instance = new JsonListener();
@@ -25,17 +24,14 @@ public class JsonListener extends SimpleJsonResourceReloadListener {
     public JsonListener() {
         super(GSON, "materials");
         TOOLMATERIALS = new ArrayList<>();
-        MATERIALSDICT = new Hashtable<>();
-        LOGGER.info("do you work?");
     }
 
     @Override
     protected void apply(Map<ResourceLocation, JsonElement> files, @NotNull ResourceManager resourceManager, @NotNull ProfilerFiller profilerFiller) {
+        TOOLMATERIALS = new ArrayList<>();
         files.forEach((resourceLocation, jsonElement) -> {
-            LOGGER.info("%s ||| %s".formatted(resourceLocation, jsonElement));
+            LOGGER.debug("%s ||| %s".formatted(resourceLocation, jsonElement));
             TOOLMATERIALS.add(jsonElement);
-            MATERIALSDICT.put(String.valueOf(resourceLocation), jsonElement);
         });
-        //LOGGER.info(teststring + "HELL");
     }
 }

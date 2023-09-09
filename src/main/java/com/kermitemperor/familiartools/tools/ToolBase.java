@@ -7,10 +7,8 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.*;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.food.FoodProperties;
+import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 
@@ -21,11 +19,13 @@ import java.util.Objects;
 import static com.kermitemperor.familiartools.util.JsonListener.TOOLMATERIALS;
 import static com.kermitemperor.familiartools.util.StringUtil.capitalize;
 
-public class ToolBase extends Item{
+public class ToolBase extends Item {
     public static final String NBT_COLOR_HEAD = "HeadColor";
     public static final String NBT_COLOR_BASE = "BaseColor";
     public static final String NBT_TIER = "Tier";
     public static final String NBT_MAXDAMAGE = "MaxDamage";
+
+    public static boolean hasHead;
 
 
     public ToolBase(Properties pProperties) {
@@ -45,14 +45,14 @@ public class ToolBase extends Item{
                 int headcolor = getColorFromJsonKey(json, "headcolor");
                 int basecolor = getColorFromJsonKey(json, "basecolor");
                 int durability = json.get("durability").getAsInt();
-                ItemStack newItemStack = createStack(name, tier, headcolor, basecolor, durability);
+                ItemStack newItemStack = createStack(name, tier, durability, hasHead, new int[] {basecolor, headcolor});
                 if (items.contains(newItemStack)) {return;}
                 items.add(newItemStack);
             }
         }
     }
 
-    public ItemStack createStack(String stackName, int tier, int headColor, int baseColor, int durability) {
+    public ItemStack createStack(String stackName, int tier, int durability, boolean hasHead, int[] colors) {
 
         ItemStack stack = new ItemStack(this);
         CompoundTag nbt = stack.getOrCreateTag();
@@ -72,8 +72,12 @@ public class ToolBase extends Item{
         nbt.put("display", namenbt);
 
         nbt.putInt(NBT_TIER, tier);
-        nbt.putInt(NBT_COLOR_HEAD, headColor);
-        nbt.putInt(NBT_COLOR_BASE, baseColor);
+
+        if (hasHead) {
+            nbt.putInt(NBT_COLOR_HEAD, colors[1]);
+        }
+        nbt.putInt(NBT_COLOR_BASE, colors[0]);
+
         nbt.putInt(NBT_MAXDAMAGE, durability);
         nbt.putInt("Damage", 0);
         return stack;
@@ -127,7 +131,7 @@ public class ToolBase extends Item{
 
     @Override
     public @NotNull ItemStack getDefaultInstance() {
-        return createStack("Base", 1, 0xffffff, 0xffffff, 8000);
+        return createStack("Base", 1, 8000, hasHead, new int[] {0xffffff, 0xffffff});
     }
     @Override
     public void appendHoverText(@NotNull ItemStack stack, @Nullable Level level, @NotNull List<Component> tooltip, @NotNull TooltipFlag flag) {
