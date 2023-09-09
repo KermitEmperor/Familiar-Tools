@@ -21,7 +21,7 @@ import java.util.Objects;
 import static com.kermitemperor.familiartools.util.JsonListener.TOOLMATERIALS;
 import static com.kermitemperor.familiartools.util.StringUtil.capitalize;
 
-public class ToolBase extends Item {
+public class ToolBase extends Item{
     public static final String NBT_COLOR_HEAD = "HeadColor";
     public static final String NBT_COLOR_BASE = "BaseColor";
     public static final String NBT_TIER = "Tier";
