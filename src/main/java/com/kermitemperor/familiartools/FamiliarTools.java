@@ -18,7 +18,7 @@ import org.slf4j.Logger;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
+
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(FamiliarTools.MOD_ID)
@@ -27,7 +27,7 @@ public class FamiliarTools {
     public static final String MOD_ID = "familiartools";
     public static final CreativeModeTab FAMILIAR_TAB = new ModItemGroup("familiar_tab");
 
-    public static ArrayList<String> HASHEAD_ITEM_IDS = new ArrayList<String>(Arrays.asList("hammer", "file"));
+    public static ArrayList<String> HASHEAD_ITEM_IDS = new ArrayList<>(Arrays.asList("hammer", "file"));
 
     public static final FarmiliarToolsRegistrate registrate = FarmiliarToolsRegistrate.create(MOD_ID);
     private static final Logger LOGGER = LogUtils.getLogger();

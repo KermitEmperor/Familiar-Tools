@@ -1,24 +1,19 @@
 package com.kermitemperor.familiartools.tools;
 
-import com.google.common.collect.Lists;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.kermitemperor.familiartools.FamiliarTools;
-import com.mojang.logging.LogUtils;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.*;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
-import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
-import org.slf4j.Logger;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -31,8 +26,6 @@ public class ToolBase extends Item {
     public static final String NBT_COLOR_BASE = "BaseColor";
     public static final String NBT_TIER = "Tier";
     public static final String NBT_MAXDAMAGE = "MaxDamage";
-
-    private static final Logger LOGGER = LogUtils.getLogger();
 
 
 
@@ -55,10 +48,10 @@ public class ToolBase extends Item {
                 int durability = json.get("durability").getAsInt();
                 try {
                     ArrayList<String> exc = JsonArray2ArrayList(json.get("exceptions").getAsJsonArray());
-                    if (exc.contains(this.getRegistryName().getPath())) {
+                    if (exc.contains(Objects.requireNonNull(this.getRegistryName()).getPath())) {
                         continue;
                     }
-                } catch (Exception e) {}
+                } catch (Exception ignored) {}
                 ItemStack newItemStack = createStack(name, tier, durability, new int[] {basecolor, headcolor});
                 items.add(newItemStack);
             }
@@ -78,7 +71,7 @@ public class ToolBase extends Item {
 
         ItemStack stack = new ItemStack(this);
         CompoundTag nbt = stack.getOrCreateTag();
-        String pathName = this.getRegistryName().getPath();
+        String pathName = Objects.requireNonNull(this.getRegistryName()).getPath();
         //SO MUCH PAIN
 
 
@@ -101,7 +94,7 @@ public class ToolBase extends Item {
             nbt.putInt(NBT_COLOR_BASE, colors[0]);
         } else {
             nbt.putInt(NBT_COLOR_BASE, colors[1]);
-        };
+        }
 
         nbt.putInt(NBT_MAXDAMAGE, durability);
         nbt.putInt("Damage", 0);
@@ -130,6 +123,7 @@ public class ToolBase extends Item {
         return 1;
     }
 
+    @SuppressWarnings("unused")
     public static int getToolTier(@NotNull ItemStack stack) {
         return stack.getOrCreateTag().getInt(NBT_TIER);
     }
