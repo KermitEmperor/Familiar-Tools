@@ -1,8 +1,11 @@
 package com.kermitemperor.familiartools.tools;
 
+import com.google.common.collect.Lists;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.kermitemperor.familiartools.FamiliarTools;
+import com.mojang.logging.LogUtils;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.*;
 import net.minecraft.network.chat.Component;
@@ -11,11 +14,15 @@ import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
+import static com.kermitemperor.familiartools.FamiliarTools.HASHEAD_ITEM_IDS;
 import static com.kermitemperor.familiartools.util.JsonListener.TOOLMATERIALS;
 import static com.kermitemperor.familiartools.util.StringUtil.capitalize;
 
@@ -25,7 +32,8 @@ public class ToolBase extends Item {
     public static final String NBT_TIER = "Tier";
     public static final String NBT_MAXDAMAGE = "MaxDamage";
 
-    public static boolean hasHead;
+    private static final Logger LOGGER = LogUtils.getLogger();
+
 
 
     public ToolBase(Properties pProperties) {
@@ -45,25 +53,40 @@ public class ToolBase extends Item {
                 int headcolor = getColorFromJsonKey(json, "headcolor");
                 int basecolor = getColorFromJsonKey(json, "basecolor");
                 int durability = json.get("durability").getAsInt();
-                ItemStack newItemStack = createStack(name, tier, durability, hasHead, new int[] {basecolor, headcolor});
-                if (items.contains(newItemStack)) {return;}
+                try {
+                    ArrayList<String> exc = JsonArray2ArrayList(json.get("exceptions").getAsJsonArray());
+                    if (exc.contains(this.getRegistryName().getPath())) {
+                        continue;
+                    }
+                } catch (Exception e) {}
+                ItemStack newItemStack = createStack(name, tier, durability, new int[] {basecolor, headcolor});
                 items.add(newItemStack);
             }
         }
     }
 
-    public ItemStack createStack(String stackName, int tier, int durability, boolean hasHead, int[] colors) {
+    private ArrayList<String> JsonArray2ArrayList(JsonArray jsonArray) {
+        ArrayList<String> array = new ArrayList<>();
+        for (int i = 0; i < jsonArray.size(); i++) {
+            array.add(jsonArray.get(i).getAsString());
+        }
+        return array;
+    }
+
+
+    public ItemStack createStack(String stackName, int tier, int durability, int[] colors) {
 
         ItemStack stack = new ItemStack(this);
         CompoundTag nbt = stack.getOrCreateTag();
+        String pathName = this.getRegistryName().getPath();
         //SO MUCH PAIN
 
 
         JsonObject textComponent = new JsonObject();
         textComponent.addProperty("text", "%s %s".formatted(
                 stackName,
-                capitalize(Objects.requireNonNull(this.getRegistryName()).getPath()
-                )));
+                capitalize(Objects.requireNonNull(pathName)))
+        );
         textComponent.addProperty("italic", false);
         String jsonDisplayName = textComponent.toString();
 
@@ -73,10 +96,12 @@ public class ToolBase extends Item {
 
         nbt.putInt(NBT_TIER, tier);
 
-        if (hasHead) {
+        if (HASHEAD_ITEM_IDS.contains(pathName)) {
             nbt.putInt(NBT_COLOR_HEAD, colors[1]);
-        }
-        nbt.putInt(NBT_COLOR_BASE, colors[0]);
+            nbt.putInt(NBT_COLOR_BASE, colors[0]);
+        } else {
+            nbt.putInt(NBT_COLOR_BASE, colors[1]);
+        };
 
         nbt.putInt(NBT_MAXDAMAGE, durability);
         nbt.putInt("Damage", 0);
@@ -131,7 +156,7 @@ public class ToolBase extends Item {
 
     @Override
     public @NotNull ItemStack getDefaultInstance() {
-        return createStack("Base", 1, 8000, hasHead, new int[] {0xffffff, 0xffffff});
+        return createStack("Base", 1, 8000, new int[] {0xffffff, 0xffffff});
     }
     @Override
     public void appendHoverText(@NotNull ItemStack stack, @Nullable Level level, @NotNull List<Component> tooltip, @NotNull TooltipFlag flag) {

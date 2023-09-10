@@ -1,0 +1,7 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "familiartools:item/file_base",
+    "layer1": "familiartools:item/file_head"
+  }
+}

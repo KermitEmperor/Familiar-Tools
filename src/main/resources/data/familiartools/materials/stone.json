@@ -3,5 +3,6 @@
   "basecolor": "ba9661",
   "headcolor": "a1a1a1",
   "tier": 1,
-  "durability": 250
+  "durability": 250,
+  "exceptions": ["wrench", "file"]
 }

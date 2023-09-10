@@ -13,7 +13,14 @@ public class FTItems {
     private static final FarmiliarToolsRegistrate REGISTRATE = FamiliarTools.registrate()
             .creativeModeTab(() -> FamiliarTools.FAMILIAR_TAB);
     public static final ItemEntry<ToolBase> hammer = REGISTRATE.item("hammer", ToolBase::new)
-            .properties(properties -> properties.durability(100))
+            .color(() -> ToolColour::new)
+            .register();
+
+    public static final ItemEntry<ToolBase> wrench = REGISTRATE.item("wrench", ToolBase::new)
+            .color(() -> ToolColour::new)
+            .register();
+
+    public static final ItemEntry<ToolBase> file= REGISTRATE.item("file", ToolBase::new)
             .color(() -> ToolColour::new)
             .register();
     public static void register() {}

@@ -4,6 +4,7 @@ import net.minecraft.client.color.item.ItemColor;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
+import static com.kermitemperor.familiartools.FamiliarTools.HASHEAD_ITEM_IDS;
 import static com.kermitemperor.familiartools.tools.ToolBase.*;
 
 public class ToolColour implements ItemColor {
