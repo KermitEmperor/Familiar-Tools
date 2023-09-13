@@ -18,7 +18,11 @@ public class FTItems {
             .color(() -> ToolColour::new)
             .register();
 
-    public static final ItemEntry<ToolBase> file= REGISTRATE.item("file", ToolBase::new)
+    public static final ItemEntry<ToolBase> file = REGISTRATE.item("file", ToolBase::new)
+            .color(() -> ToolColour::new)
+            .register();
+
+    public static final ItemEntry<ToolBase> saw = REGISTRATE.item("saw", ToolBase::new)
             .color(() -> ToolColour::new)
             .register();
     public static void register() {}
