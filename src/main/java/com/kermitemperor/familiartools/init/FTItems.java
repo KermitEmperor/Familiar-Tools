@@ -8,7 +8,7 @@ import com.tterrag.registrate.util.entry.ItemEntry;
 
 @SuppressWarnings("unused")
 public class FTItems {
-    private static final FarmiliarToolsRegistrate REGISTRATE = FamiliarTools.registrate()
+    public static final FarmiliarToolsRegistrate REGISTRATE = FamiliarTools.registrate()
             .creativeModeTab(() -> FamiliarTools.FAMILIAR_TAB);
     public static final ItemEntry<ToolBase> hammer = REGISTRATE.item("hammer", ToolBase::new)
             .color(() -> ToolColour::new)
@@ -18,7 +18,12 @@ public class FTItems {
             .color(() -> ToolColour::new)
             .register();
 
-    public static final ItemEntry<ToolBase> file= REGISTRATE.item("file", ToolBase::new)
+    public static final ItemEntry<ToolBase> file = REGISTRATE.item("file", ToolBase::new)
+            .color(() -> ToolColour::new)
+            .register();
+
+    public static final ItemEntry<ToolBase> saw = REGISTRATE.item("saw", ToolBase::new)
+
             .color(() -> ToolColour::new)
             .register();
     public static void register() {}

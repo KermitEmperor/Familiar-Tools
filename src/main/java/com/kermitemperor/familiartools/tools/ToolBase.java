@@ -1,8 +1,8 @@
 package com.kermitemperor.familiartools.tools;
 
-import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.kermitemperor.familiartools.FTTags;
 import com.kermitemperor.familiartools.FamiliarTools;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.*;
@@ -17,8 +17,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import static com.kermitemperor.familiartools.FamiliarTools.HASHEAD_ITEM_IDS;
 import static com.kermitemperor.familiartools.util.JsonListener.TOOLMATERIALS;
+import static com.kermitemperor.familiartools.util.JsonUtils.*;
 import static com.kermitemperor.familiartools.util.StringUtil.capitalize;
 
 public class ToolBase extends Item {
@@ -29,13 +29,11 @@ public class ToolBase extends Item {
 
 
 
+
     public ToolBase(Properties pProperties) {
         super(pProperties);
     }
 
-    private int getColorFromJsonKey(JsonObject jsonObject, String key) {
-        return Integer.parseInt(jsonObject.get(key).getAsString().toUpperCase(), 16);
-    }
     @Override
     public void fillItemCategory(@NotNull CreativeModeTab group, @NotNull NonNullList<ItemStack> items) {
         if (group == FamiliarTools.FAMILIAR_TAB) {
@@ -58,13 +56,6 @@ public class ToolBase extends Item {
         }
     }
 
-    private ArrayList<String> JsonArray2ArrayList(JsonArray jsonArray) {
-        ArrayList<String> array = new ArrayList<>();
-        for (int i = 0; i < jsonArray.size(); i++) {
-            array.add(jsonArray.get(i).getAsString());
-        }
-        return array;
-    }
 
 
     public ItemStack createStack(String stackName, int tier, int durability, int[] colors) {
@@ -89,12 +80,10 @@ public class ToolBase extends Item {
 
         nbt.putInt(NBT_TIER, tier);
 
-        if (HASHEAD_ITEM_IDS.contains(pathName)) {
-            nbt.putInt(NBT_COLOR_HEAD, colors[1]);
-            nbt.putInt(NBT_COLOR_BASE, colors[0]);
-        } else {
-            nbt.putInt(NBT_COLOR_BASE, colors[1]);
-        }
+        boolean isHeadless = stack.is(FTTags.Items.HEADLESS);
+        if (!isHeadless) nbt.putInt(NBT_COLOR_HEAD, colors[1]);
+        nbt.putInt(NBT_COLOR_BASE, !isHeadless ? colors[0] : colors[1]);
+
 
         nbt.putInt(NBT_MAXDAMAGE, durability);
         nbt.putInt("Damage", 0);

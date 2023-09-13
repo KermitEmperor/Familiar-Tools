@@ -26,6 +26,7 @@ public class JsonListener extends SimpleJsonResourceReloadListener {
         TOOLMATERIALS = new ArrayList<>();
     }
 
+
     @Override
     protected void apply(Map<ResourceLocation, JsonElement> files, @NotNull ResourceManager resourceManager, @NotNull ProfilerFiller profilerFiller) {
         TOOLMATERIALS = new ArrayList<>();

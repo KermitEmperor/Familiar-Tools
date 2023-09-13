@@ -4,5 +4,5 @@
   "headcolor": "ba9661",
   "tier": 0,
   "durability": 59,
-  "exceptions": ["wrench", "file"]
+  "exceptions": ["wrench", "file", "saw"]
 }
