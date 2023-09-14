@@ -1,5 +1,5 @@
 {
-  "parent": "item/generated",
+  "parent": "item/handheld",
   "textures": {
     "layer0": "familiartools:item/file_base",
     "layer1": "familiartools:item/file_head"
