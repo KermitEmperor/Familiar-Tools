@@ -23,8 +23,16 @@ public class FTItems {
             .register();
 
     public static final ItemEntry<ToolBase> saw = REGISTRATE.item("saw", ToolBase::new)
-
             .color(() -> ToolColour::new)
             .register();
+
+    public static final ItemEntry<ToolBase> screwdriver = REGISTRATE.item("screwdriver", ToolBase::new)
+            .color(() -> ToolColour::new)
+            .register();
+
+    public static final ItemEntry<ToolBase> mortar = REGISTRATE.item("screwdriver", ToolBase::new)
+            .color(() -> ToolColour::new)
+            .register();
+
     public static void register() {}
 }
