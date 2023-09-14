@@ -30,7 +30,11 @@ public class FTItems {
             .color(() -> ToolColour::new)
             .register();
 
-    public static final ItemEntry<ToolBase> mortar = REGISTRATE.item("screwdriver", ToolBase::new)
+    public static final ItemEntry<ToolBase> mortar = REGISTRATE.item("mortar", ToolBase::new)
+            .color(() -> ToolColour::new)
+            .register();
+
+    public static final ItemEntry<ToolBase> wire_cutter = REGISTRATE.item("wire_cutter", ToolBase::new)
             .color(() -> ToolColour::new)
             .register();
 
