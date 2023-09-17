@@ -2,22 +2,23 @@ package com.kermitemperor.familiartools.util;
 
 import com.tterrag.registrate.AbstractRegistrate;
 import net.minecraftforge.eventbus.api.IEventBus;
+import org.jetbrains.annotations.NotNull;
 
-public class FarmiliarToolsRegistrate extends AbstractRegistrate<FarmiliarToolsRegistrate> {
+public class FamiliarToolsRegistrate extends AbstractRegistrate<FamiliarToolsRegistrate> {
     /**
      * Construct a new Registrate for the given mod ID.
      *
      * @param modid The mod ID for which objects will be registered
      */
-    protected FarmiliarToolsRegistrate(String modid) {
+    protected FamiliarToolsRegistrate(String modid) {
         super(modid);
     }
-    public static FarmiliarToolsRegistrate create(String modid) {
-        return new FarmiliarToolsRegistrate(modid);
+    public static FamiliarToolsRegistrate create(String modid) {
+        return new FamiliarToolsRegistrate(modid);
     }
     
     @Override
-    public FarmiliarToolsRegistrate registerEventListeners(IEventBus bus) {
+    public @NotNull FamiliarToolsRegistrate registerEventListeners(@NotNull IEventBus bus) {
         return super.registerEventListeners(bus);
     }
 }

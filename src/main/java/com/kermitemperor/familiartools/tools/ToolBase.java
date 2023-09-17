@@ -4,6 +4,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.kermitemperor.familiartools.FTTags;
 import com.kermitemperor.familiartools.FamiliarTools;
+import com.kermitemperor.familiartools.config.FTCommonConfig;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.*;
 import net.minecraft.network.chat.Component;
@@ -37,19 +38,28 @@ public class ToolBase extends Item {
     @Override
     public void fillItemCategory(@NotNull CreativeModeTab group, @NotNull NonNullList<ItemStack> items) {
         if (group == FamiliarTools.FAMILIAR_TAB) {
+
+            if (!(FTCommonConfig.BLACKLIST_TOOLS.get()
+                    .contains(Objects.requireNonNull(this.getRegistryName()).getPath())
+                    ==
+                    FTCommonConfig.INVERT.get())) return;
+
             for (JsonElement jsonElement : TOOLMATERIALS) {
                 JsonObject json = jsonElement.getAsJsonObject();
-                String name = json.get("localizedName").getAsString();
-                int tier = json.get("tier").getAsInt();
-                int headcolor = getColorFromJsonKey(json, "headcolor");
-                int basecolor = getColorFromJsonKey(json, "basecolor");
-                int durability = json.get("durability").getAsInt();
+
                 try {
                     ArrayList<String> exc = JsonArray2ArrayList(json.get("exceptions").getAsJsonArray());
                     if (exc.contains(Objects.requireNonNull(this.getRegistryName()).getPath())) {
                         continue;
                     }
                 } catch (Exception ignored) {}
+
+                String name = json.get("localizedName").getAsString();
+                int tier = json.get("tier").getAsInt();
+                int headcolor = getColorFromJsonKey(json, "headcolor");
+                int basecolor = getColorFromJsonKey(json, "basecolor");
+                int durability = json.get("durability").getAsInt();
+
                 ItemStack newItemStack = createStack(name, tier, durability, new int[] {basecolor, headcolor});
                 items.add(newItemStack);
             }
